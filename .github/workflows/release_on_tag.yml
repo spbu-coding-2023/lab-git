@@ -19,11 +19,11 @@ jobs:
             - uses: actions/checkout@v3
             - name: Build lab work
               run: |
-                /bin/sh -x ./scripts/build.sh -d -o '${{ env.RESULT_FILENAME }}'
+                /bin/bash -x ./scripts/build.sh -d -o '${{ env.RESULT_FILENAME }}'
                 ./scripts/build.sh -d -o '${{ env.ASSET_FILENAME }}'
             - name: Release lab work assets
               run: |
-                bash -x ./scripts/release_file.sh '${{ github.ref_name}}' \
+                /bin/bash -x ./scripts/release_file.sh '${{ github.ref_name}}' \
                     -t '${{ env.RELEASE_TITLE }}' \
                     '${{ env.ASSET_FILENAME }}.pdf' '${{ env.ASSET_LABEL }}'
               env:
