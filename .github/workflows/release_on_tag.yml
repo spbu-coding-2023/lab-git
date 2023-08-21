@@ -1,0 +1,30 @@
+name: Release
+
+on:
+    push:
+        tags:
+          - 'v*'
+
+permissions:
+    contents: write
+
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        env:
+            ASSET_FILENAME: 'Lab_Git'
+            ASSET_LABEL: 'Лабораторная по Git'
+            RELEASE_TITLE: 'Лабораторная по Git ${{ github.ref_name}}'
+        steps:
+            - uses: actions/checkout@v3
+            - name: Build lab work
+              run: |
+                /bin/sh -x ./scripts/build.sh -d -o '${{ env.RESULT_FILENAME }}'
+                ./scripts/build.sh -d -o '${{ env.ASSET_FILENAME }}'
+            - name: Release lab work assets
+              run: |
+                bash -x ./scripts/release_file.sh '${{ github.ref_name}}' \
+                    -t '${{ env.RELEASE_TITLE }}' \
+                    '${{ env.ASSET_FILENAME }}.pdf' '${{ env.ASSET_LABEL }}'
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
