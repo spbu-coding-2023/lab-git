@@ -1,0 +1,24 @@
+name: Build
+
+on:
+    push:
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        container: asciidoctor/docker-asciidoctor
+        env:
+            ARTIFACT_NAME: 'Лабораторная работа по Git'
+            RESULT_FILENAME: 'Git_лабораторная'
+        steps:
+            - uses: actions/checkout@v3
+            - name: Build Lab
+              run: |
+                /bin/sh -x ./scripts/build.sh -o '${{ env.RESULT_FILENAME }}'
+            - uses: actions/upload-artifact@v3
+              with:
+                name: ${{ env.ARTIFACT_NAME }}
+                path: '${{ env.RESULT_FILENAME }}.pdf'
+                if-no-files-found: error

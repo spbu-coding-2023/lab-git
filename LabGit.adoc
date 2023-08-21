@@ -1,0 +1,549 @@
+= Лабораторная работа по Git
+:source-highlighter: rouge
+:sectnums:
+
+== Подготовка
+
+[arabic]
+. Зарегистрируйтесь на GitHub. Очень рекомендуем использовать "приличную почту", т.е что-то типа `имя.фамилия@gmail.com`, а не "нагибатор228@gmail.com"
+. Установите себе на компьютер Git, задайте базовые настройки -- имя пользователя и email (они будут задавать автора коммитов)
+[source, sh]
+----
+git config --global user.name 'Имя Фамилия'
+git config --global user.email 'Ваш email'
+----
+
+== Создайте репозиторий на GitHub
+Задайте репозиторию имя, выберите лицензию, под которой исходный код в репозитории будет доступен,
+напримеh _MIT License_
+
+== Склонируйте созданный репозиторий на свой компьютер
+
+[source, sh]
+----
+git clone <URL вашего репозитория>
+----
+
+== Создайте новую ветку `config` и переключитесь в неё
+
+[source, sh]
+----
+git switch -c config
+----
+
+== Создайте файл `_config.yml` со следующим содержимым
+
+[source, yaml]
+----
+title: <Тут напишите заголовок, например "Имя Фамилия">
+description: <Тут напишите какое-то описание>
+----
+
+== Добавьте сделанные изменения к будущему коммиту
+
+[source, sh]
+----
+git add _config.yml
+----
+
+== Посмотрите изменения, которые войдут в коммит
+
+[source, sh]
+----
+git diff --staged
+----
+
+Вы должны увидеть что-то подобное
+
+[source]
+----
+diff --git a/_config.yml b/_config.yml
+new file mode 100644
+index 0000000..fee889c
+--- /dev/null
++++ b/_config.yml
+@@ -0,0 +1,3 @@
++title: Vladimir Kutuev
++description: Personal page of Vladimir Kutuev hosted via GitHub Pages.
+----
+
+== Зафиксируйте изменения (коммит)
+
+[source, sh]
+----
+git commit -m 'Add base jekyll configuration'
+----
+
+== Создайте новую ветку `config_theme` и переключитесь в неё
+
+[source, sh]
+----
+git switch main
+git switch -c config_theme
+----
+
+[NOTE]
+====
+Отметим, что некоторые шаги могут выглядеть довольно странно, однако они позволят создать конфликт,
+что поможет научиться разрешать конфликты, а также помогут получить побольше опыта работы с ветками.
+====
+
+== Создайте файл `_config.yml` со следующим содержимым
+
+[source, yaml]
+----
+theme: <Тема, например jekyll-theme-hacker>
+----
+
+https://pages.github.com/themes/[Другие темы]
+
+== Добавьте сделанные изменения к будущему коммиту
+
+[source, sh]
+----
+git add _config.yml
+----
+
+== Зафиксируйте изменения
+
+[source, sh]
+----
+git commit -m 'Add base jekyll configuration'
+----
+
+== Посмотрите, что история изменений нелинейна
+
+[source, sh]
+----
+git log --graph --oneline --all
+----
+
+Вы должны увидеть что-то подобное
+
+[source]
+----
+* 0bb0b9c (HEAD -> config_theme) Add jekyll theme
+| * d8748cf (config) Add base jekyll configuration
+|/
+* 4a9ce37 (origin/main, origin/HEAD, main) Initial commit
+----
+
+== Выполните слияние ветки `config_theme` в ветку `config`
+
+[source, sh]
+----
+git switch config
+git merge config_theme
+----
+
+Вы должны увидеть что-то такое
+
+[source]
+----
+Auto-merging _config.yml
+CONFLICT (add/add): Merge conflict in _config.yml
+Automatic merge failed; fix conflicts and then commit the result.
+----
+
+Это конфликт!
+
+== Разрешите конфликт
+
+Откройте файл `_config.yml`, он должен выглядеть как-то так
+
+[source]
+----
+<<<<<<< HEAD
+title: Vladimir Kutuev
+description: Personal page of Vladimir Kutuev hosted via GitHub Pages.
+=======
+theme: jekyll-theme-hacker
+>>>>>>> config_theme
+----
+
+Приведите файл в тот вид, который должен быть после слияния
+
+[source]
+----
+title: Vladimir Kutuev
+description: Personal page of Vladimir Kutuev hosted via GitHub Pages.
+theme: jekyll-theme-hacker
+----
+
+Теперь продолжим слияние
+
+[source, sh]
+----
+git add _config.yml
+git merge --continue
+----
+
+Конфликт успешно разрешился, слияние выполнено
+
+== Посмотрите историю _git_
+
+[source, sh]
+----
+git log
+----
+
+Вы должны увидеть что-то такое
+
+[source]
+----
+commit 26830abdcb9590325eafe8c0d83595649a78ceb8 (HEAD -> config)
+Merge: d8748cf 0bb0b9c
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Sat Aug 19 08:43:57 2023 +0300
+
+    Merge branch 'config_theme' into config
+
+commit 0bb0b9cdd877038a75137d8d016c678b077a7e6f (config_theme)
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Sat Aug 19 08:29:03 2023 +0300
+
+    Add jekyll theme
+
+commit d8748cfb24e4c5150c875a4c826a29ea61bd8f81
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Sat Aug 19 08:00:40 2023 +0300
+
+    Add base jekyll configuration
+
+commit 4a9ce37aa4a3257450cdad68b2554f1f3b3a0abf (origin/main, origin/HEAD, main)
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Fri Aug 18 16:41:03 2023 +0300
+
+    Initial commit
+----
+
+Также можно посмотреть на историю в виде дерева
+
+[source, sh]
+----
+git log --graph --oneline --all
+----
+
+Вы должны увидеть что-то такое
+
+[source]
+----
+*   26830ab (HEAD -> config) Merge branch 'config_theme' into config
+|\
+| * 0bb0b9c (config_theme) Add jekyll theme
+* | d8748cf Add base jekyll configuration
+|/
+* 4a9ce37 (origin/main, origin/HEAD, main) Initial commit
+----
+
+
+== Создайте ветку `page`, которая растёт от ветки `main`
+
+[source, sh]
+----
+git switch main
+git switch -c page
+----
+
+== Создайте файл `index.md`, в котором напишите что-то о себе, например
+
+[source, md]
+----
+# Образование
+- Студент бакалавриата СПбГУ по направлению Программная инженерия
+
+# Контакты
+- email: <Ваш email>
+----
+
+Можете рассказать побольше о себе, о проектах, над которыми работали и т.д.
+
+== Сделайте коммит
+
+[source, sh]
+----
+git add index.md
+git commit -m 'Add personal page'
+----
+
+== Добавьте что-то, чо забыли, в `index.md`, например ваш Telegram
+
+[source, md]
+----
+# Образование
+- Студент бакалавриата СПбГУ по направлению Программная инженерия
+
+# Контакты
+- email: <Ваш email>
+- telegram: [<telegram-логин>](https://t.me/<telegram-login>)
+----
+
+== Отредактируйте предыдущий коммит, добавив в него новые изменениия
+
+[source, sh]
+----
+git add index.md
+git commit --amend
+----
+
+== Добавьте _layout_ в `index.md`
+
+[source]
+----
+---
+layout: default
+---
+
+# Образование
+- Студент бакалавриата СПбГУ по направлению Программная инженерия
+
+# Контакты
+- email: <Ваш email>
+- telegram: [<telegram-логин>](https://t.me/<telegram-login>)
+----
+
+== Сделайте коммит
+
+Добавьте изменения в файле `index.md` к коммиту, посмотрев те изменения, которые добавляете
+
+[source, sh]
+----
+git add -p index.md
+----
+
+Вы увидите что-то такое
+
+[source]
+----
+diff --git a/index.md b/index.md
+index 6a5338f..fcf125e 100644
+--- a/index.md
++++ b/index.md
+@@ -1,3 +1,7 @@
++---
++layout: default
++---
++
+ # Образование
+ - Студент бакалавриата СПбГУ по направлению Программная инженерия
+
+(1/1) Stage this hunk [y,n,q,a,d,e,?]?
+----
+
+Введите `y`
+
+Сделайте коммит
+
+[source, sh]
+----
+git commit -m 'Add layout to personal page'
+----
+
+== Посмотрите на дерево коммитов
+
+[source, sh]
+----
+git log --graph --oneline --all
+----
+
+Вы увидите что-то такое
+
+[source]
+----
+* 2f33fbd (HEAD -> page) Add layout to personal page
+* 8b63734 Add personal page
+| *   26830ab (config) Merge branch 'config_theme' into config
+| |\
+| | * 0bb0b9c (config_theme) Add jekyll theme
+| |/
+|/|
+| * d8748cf Add base jekyll configuration
+|/
+* 4a9ce37 (origin/main, origin/HEAD, main) Initial commit
+----
+
+== Перебазируйте ветку `page` на ветку `config`, объединив коммиты ветки `page` в один
+
+[source, sh]
+----
+git rebase -i config
+----
+
+Вы должны увидеть в редакторе что-то такое
+
+[source]
+----
+pick 8b63734 Add personal page⏎
+pick 2f33fbd Add layout to personal page
+----
+
+А также инструкцию по тому, что можно сделать с коммитами
+
+Отредактируйте так, чтобы объединить коммиты
+
+[source]
+----
+pick 8b63734 Add personal page⏎
+s 2f33fbd Add layout to personal page
+----
+
+Затем надо будет отредактировать сообщение к объединённому коммиту, оставьте
+
+[source]
+----
+Add personal page
+----
+
+== Посмотрите на дерево коммитов
+
+[source, sh]
+----
+git log --graph --oneline --all
+----
+
+Вы должны увидеть, что ветка `page` теперь "растёт" не из `main`, а из `config`
+
+[source]
+----
+* 3b9b1d4 (HEAD -> page) Add personal page
+*   26830ab (config) Merge branch 'config_theme' into config
+|\
+| * 0bb0b9c (config_theme) Add jekyll theme
+* | d8748cf Add base jekyll configuration
+|/
+* 4a9ce37 (origin/main, origin/HEAD, main) Initial commit
+----
+
+== Посмотрите, что объединённый коммит содержит изменения 2х коммитов, которые делали выше
+
+[source, sh]
+----
+git show
+----
+
+Вы должны увидеть что-то такое
+
+[source]
+----
+commit 3b9b1d4b57843a6d489aba9a0d0911e71c24aa9e (HEAD -> page)
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Sat Aug 19 09:30:43 2023 +0300
+
+    Add personal page
+
+diff --git a/index.md b/index.md
+new file mode 100644
+index 0000000..fcf125e
+--- /dev/null
++++ b/index.md
+@@ -0,0 +1,10 @@
++---
++layout: default
++---
++
++# Образование
++- Студент бакалавриата СПбГУ по направлению Программная инженерия
++
++# Контакты
++- email: <Ваш email>
++- telegram: [<telegram-логин>](https://t.me/<telegram-login>)
+----
+
+== Отправьте изменения ветки `page` в удалённый репозиторий
+
+[source, sh]
+----
+git push
+----
+
+Однако _git_ этого не сделает и напишет
+
+[source]
+----
+fatal: The current branch config has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin page
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+----
+
+Это происходит из-за того, что в удалённом репозитории нет соответствующей ветки.
+Выполните
+
+[source, sh]
+----
+git push --set-upstream origin page
+----
+
+Теперь в выводе `git log` видим, что есть удалённая ветка `origin/page`, которая содержит то же, что и ветка `page`
+
+[source]
+----
+commit 3b9b1d4b57843a6d489aba9a0d0911e71c24aa9e (HEAD -> page, origin/page)
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Sat Aug 19 09:30:43 2023 +0300
+
+    Add personal page
+----
+
+== Сделайте Pull Request ветки `page` в ветку `main` на GitHub
+
+Укажите заколовок Pull Reques'а, например `Add personal page`
+
+Напишите описание Pull Request'a, например
+
+[source, md]
+----
+Add
+- Simple personal page
+- `jekyll` config
+----
+
+== Влейте Pull Request
+
+Рядом с кнопкой `Merge pull request` есть треугольник для выбора способа добавления изменений
+
+Выберите `Squash and merge` и выполните слияние
+
+== В локальном репозитории подтяните изменения из удалённого репозитория
+
+[source]
+----
+git switch main
+git pull
+----
+
+В выводе `git log` Вы увидите, что добавился коммит, созданный в результате Pull Request'а
+
+[source]
+----
+commit ee2783f6b1b6720ad694233fd438022e29c0dc90 (HEAD -> main, origin/main, origin/HEAD)
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Sat Aug 19 10:13:24 2023 +0300
+
+    Add personal page (#1)
+
+    * Add base jekyll configuration
+
+    * Add jekyll theme
+
+    * Add personal page
+
+commit 4a9ce37aa4a3257450cdad68b2554f1f3b3a0abf
+Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
+Date:   Fri Aug 18 16:41:03 2023 +0300
+
+    Initial commit
+----
+
+== Разверните страничку
+
+В настройках репозитория на GitHub во вкладке `Pages` выберите ветку,
+из которой будет производиться развёртывание, указав `main`
+
+Теперь по ссылке https://<Ваш GitHub-login>.github.io/<Имя репозитория>/
+доступна ваша персональная страничка
+
+== Продолжайте изучать Git :)
