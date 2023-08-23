@@ -1,32 +1,35 @@
 = Лабораторная работа по Git
 :source-highlighter: rouge
+:rouge-style: github
+:icons: font
 :sectnums:
 
 == Подготовка
 
 [arabic]
-. Зарегистрируйтесь на GitHub. Очень рекомендуем использовать "приличную почту", т.е что-то типа `имя.фамилия@gmail.com`, а не "нагибатор228@gmail.com"
+. Зарегистрируйтесь на GitHub. Очень рекомендуем использовать "приличную почту", т.е что-то типа `имя.фамилия@gmail.com`, а не "`нагибатор228@gmail.com`"
 . Установите себе на компьютер Git, задайте базовые настройки -- имя пользователя и email (они будут задавать автора коммитов)
-[source, sh]
+
+[source, shell]
 ----
-git config --global user.name 'Имя Фамилия'
-git config --global user.email 'Ваш email'
+git config --global user.name '<Имя Фамилия>'
+git config --global user.email '<Ваш email>'
 ----
 
-== Создайте репозиторий на GitHub
+== Создайте публичный репозиторий на GitHub
 Задайте репозиторию имя, выберите лицензию, под которой исходный код в репозитории будет доступен,
 напримеh _MIT License_
 
 == Склонируйте созданный репозиторий на свой компьютер
 
-[source, sh]
+[source, shell]
 ----
 git clone <URL вашего репозитория>
 ----
 
 == Создайте новую ветку `config` и переключитесь в неё
 
-[source, sh]
+[source, shell]
 ----
 git switch -c config
 ----
@@ -41,21 +44,21 @@ description: <Тут напишите какое-то описание>
 
 == Добавьте сделанные изменения к будущему коммиту
 
-[source, sh]
+[source, shell]
 ----
 git add _config.yml
 ----
 
 == Посмотрите изменения, которые войдут в коммит
 
-[source, sh]
+[source, shell]
 ----
 git diff --staged
 ----
 
 Вы должны увидеть что-то подобное
 
-[source]
+[source, diff]
 ----
 diff --git a/_config.yml b/_config.yml
 new file mode 100644
@@ -69,14 +72,14 @@ index 0000000..fee889c
 
 == Зафиксируйте изменения (коммит)
 
-[source, sh]
+[source, shell]
 ----
 git commit -m 'Add base jekyll configuration'
 ----
 
 == Создайте новую ветку `config_theme` и переключитесь в неё
 
-[source, sh]
+[source, shell]
 ----
 git switch main
 git switch -c config_theme
@@ -99,21 +102,21 @@ https://pages.github.com/themes/[Другие темы]
 
 == Добавьте сделанные изменения к будущему коммиту
 
-[source, sh]
+[source, shell]
 ----
 git add _config.yml
 ----
 
 == Зафиксируйте изменения
 
-[source, sh]
+[source, shell]
 ----
 git commit -m 'Add base jekyll configuration'
 ----
 
 == Посмотрите, что история изменений нелинейна
 
-[source, sh]
+[source, shell]
 ----
 git log --graph --oneline --all
 ----
@@ -130,7 +133,7 @@ git log --graph --oneline --all
 
 == Выполните слияние ветки `config_theme` в ветку `config`
 
-[source, sh]
+[source, shell]
 ----
 git switch config
 git merge config_theme
@@ -163,7 +166,7 @@ theme: jekyll-theme-hacker
 
 Приведите файл в тот вид, который должен быть после слияния
 
-[source]
+[source, yaml]
 ----
 title: Vladimir Kutuev
 description: Personal page of Vladimir Kutuev hosted via GitHub Pages.
@@ -172,7 +175,7 @@ theme: jekyll-theme-hacker
 
 Теперь продолжим слияние
 
-[source, sh]
+[source, shell]
 ----
 git add _config.yml
 git merge --continue
@@ -182,7 +185,7 @@ git merge --continue
 
 == Посмотрите историю _git_
 
-[source, sh]
+[source, shell]
 ----
 git log
 ----
@@ -219,7 +222,7 @@ Date:   Fri Aug 18 16:41:03 2023 +0300
 
 Также можно посмотреть на историю в виде дерева
 
-[source, sh]
+[source, shell]
 ----
 git log --graph --oneline --all
 ----
@@ -239,7 +242,7 @@ git log --graph --oneline --all
 
 == Создайте ветку `page`, которая растёт от ветки `main`
 
-[source, sh]
+[source, shell]
 ----
 git switch main
 git switch -c page
@@ -247,7 +250,7 @@ git switch -c page
 
 == Создайте файл `index.md`, в котором напишите что-то о себе, например
 
-[source, md]
+[source, markdown]
 ----
 # Образование
 - Студент бакалавриата СПбГУ по направлению Программная инженерия
@@ -260,15 +263,15 @@ git switch -c page
 
 == Сделайте коммит
 
-[source, sh]
+[source, shell]
 ----
 git add index.md
 git commit -m 'Add personal page'
 ----
 
-== Добавьте что-то, чо забыли, в `index.md`, например ваш Telegram
+== Добавьте что-то, что забыли, в `index.md`, например ваш Telegram
 
-[source, md]
+[source, markdown]
 ----
 # Образование
 - Студент бакалавриата СПбГУ по направлению Программная инженерия
@@ -280,7 +283,7 @@ git commit -m 'Add personal page'
 
 == Отредактируйте предыдущий коммит, добавив в него новые изменениия
 
-[source, sh]
+[source, shell]
 ----
 git add index.md
 git commit --amend
@@ -288,7 +291,7 @@ git commit --amend
 
 == Добавьте _layout_ в `index.md`
 
-[source]
+[source, markdown]
 ----
 ---
 layout: default
@@ -306,14 +309,14 @@ layout: default
 
 Добавьте изменения в файле `index.md` к коммиту, посмотрев те изменения, которые добавляете
 
-[source, sh]
+[source, shell]
 ----
 git add -p index.md
 ----
 
 Вы увидите что-то такое
 
-[source]
+[source, diff]
 ----
 diff --git a/index.md b/index.md
 index 6a5338f..fcf125e 100644
@@ -334,14 +337,14 @@ index 6a5338f..fcf125e 100644
 
 Сделайте коммит
 
-[source, sh]
+[source, shell]
 ----
 git commit -m 'Add layout to personal page'
 ----
 
 == Посмотрите на дерево коммитов
 
-[source, sh]
+[source, shell]
 ----
 git log --graph --oneline --all
 ----
@@ -364,7 +367,7 @@ git log --graph --oneline --all
 
 == Перебазируйте ветку `page` на ветку `config`, объединив коммиты ветки `page` в один
 
-[source, sh]
+[source, shell]
 ----
 git rebase -i config
 ----
@@ -373,17 +376,51 @@ git rebase -i config
 
 [source]
 ----
-pick 8b63734 Add personal page⏎
+pick 8b63734 Add personal page
 pick 2f33fbd Add layout to personal page
 ----
 
 А также инструкцию по тому, что можно сделать с коммитами
 
+[source]
+----
+# Rebase e2ac1d1..f9bb225 onto e2ac1d1 (1 command)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup [-C | -c] <commit> = like "squash" but keep only the previous
+#                    commit's log message, unless -C is used, in which case
+#                    keep only this commit's message; -c is same as -C but
+#                    opens the editor
+# x, exec <command> = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# d, drop <commit> = remove commit
+# l, label <label> = label current HEAD with a name
+# t, reset <label> = reset HEAD to a label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
+#         create a merge commit using the original merge commit's
+#         message (or the oneline, if no original merge commit was
+#         specified); use -c <commit> to reword the commit message
+# u, update-ref <ref> = track a placeholder for the <ref> to be updated
+#                       to this position in the new commits. The <ref> is
+#                       updated at the end of the rebase
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+----
+
 Отредактируйте так, чтобы объединить коммиты
 
 [source]
 ----
-pick 8b63734 Add personal page⏎
+pick 8b63734 Add personal page
 s 2f33fbd Add layout to personal page
 ----
 
@@ -396,7 +433,7 @@ Add personal page
 
 == Посмотрите на дерево коммитов
 
-[source, sh]
+[source, shell]
 ----
 git log --graph --oneline --all
 ----
@@ -416,14 +453,14 @@ git log --graph --oneline --all
 
 == Посмотрите, что объединённый коммит содержит изменения 2х коммитов, которые делали выше
 
-[source, sh]
+[source, shell]
 ----
 git show
 ----
 
 Вы должны увидеть что-то такое
 
-[source]
+[source, diff]
 ----
 commit 3b9b1d4b57843a6d489aba9a0d0911e71c24aa9e (HEAD -> page)
 Author: Vladimir Kutuev <vladimir.kutuev@gmail.com>
@@ -451,7 +488,7 @@ index 0000000..fcf125e
 
 == Отправьте изменения ветки `page` в удалённый репозиторий
 
-[source, sh]
+[source, shell]
 ----
 git push
 ----
@@ -472,7 +509,7 @@ upstream, see 'push.autoSetupRemote' in 'git help config'.
 Это происходит из-за того, что в удалённом репозитории нет соответствующей ветки.
 Выполните
 
-[source, sh]
+[source, shell]
 ----
 git push --set-upstream origin page
 ----
@@ -494,7 +531,7 @@ Date:   Sat Aug 19 09:30:43 2023 +0300
 
 Напишите описание Pull Request'a, например
 
-[source, md]
+[source, markdown]
 ----
 Add
 - Simple personal page
