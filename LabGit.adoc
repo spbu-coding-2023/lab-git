@@ -663,6 +663,15 @@ Date:   Fri Aug 18 16:41:03 2023 +0300
 
 == Продолжайте изучать Git :)
 
+Ещё больше знаний о работе с Git можно получить из таких источников
+
+* Мануал, который доступен в терминале `man git` или `man git-<команда>` для конкретной команды Git
+* Книга https://git-scm.com/book/en/v2[Pro Git], есть на разных языках и всесторонне освещает работу с Git
+* https://www.atlassian.com/ru/git/tutorials/learn-git-with-bitbucket-cloud[Туториал от Atlassian]
+* Интерактивный туториал https://learngitbranching.js.org/[Learn Git Branching] (очень рекомендуем к прохождению)
+* https://wac-cdn.atlassian.com/ru/dam/jcr:e7e22f25-bba2-4ef1-a197-53f46b6df4a5/SWTM-2088_Atlassian-Git-Cheatsheet.pdf?cdnVersion=1173[Git Cheat Sheet] от Atlassian
+* Игра https://ohmygit.org/[Oh My Git!]
+
 [glossary]
 == Использованные команды
 
