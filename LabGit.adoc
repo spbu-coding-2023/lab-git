@@ -1,3 +1,11 @@
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :memo:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 = Лабораторная работа по Git
 :source-highlighter: rouge
 :rouge-style: github
@@ -29,7 +37,7 @@
 == Подготовка
 
 [arabic]
-. Зарегистрируйтесь на GitHub. Очень рекомендуем использовать "приличную почту", т.е что-то типа `имя.фамилия@gmail.com`, а не `нагибатор228@gmail.com`
+. Зарегистрируйтесь на GitHub. Очень рекомендуем использовать «приличную почту», т.е что-то типа `имя.фамилия@gmail.com`, а не `нагибатор228@gmail.com`
 . Установите себе на компьютер Git, задайте базовые настройки -- имя пользователя и email (они будут задавать автора коммитов)
 
 [source, shell]
@@ -69,18 +77,13 @@ git clone <URL вашего репозитория>
 git switch -c config
 ----
 
-== Создайте файл `_config.yml` со следующим содержимым
+== Создайте файл `_config.yml` со следующими настройками для jekyll
 
 [source, yaml]
 ----
 title: <Тут напишите заголовок, например, "Имя Фамилия">
 description: <Тут напишите какое-то описание>
 ----
-
-[NOTE]
-====
-Этот файл задаёт настройки для jekyll
-====
 
 == Добавьте сделанные изменения к будущему коммиту
 
@@ -312,7 +315,7 @@ git log --graph --oneline --all
 ----
 
 
-== Создайте ветку `page`, которая "растёт" от ветки `main`
+== Создайте ветку `page`, которая «растёт» от ветки `main`
 
 [source, shell]
 ----
@@ -516,7 +519,7 @@ Add personal page
 git log --graph --oneline --all
 ----
 
-Вы должны увидеть, что ветка `page` теперь "растёт" не из `main`, а из `config`
+Вы должны увидеть, что ветка `page` теперь «растёт» не из `main`, а из `config`
 
 [source]
 ----
