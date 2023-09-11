@@ -68,6 +68,7 @@ git config --global user.email '<ваш email>'
 [source, shell]
 ----
 git clone <URL вашего репозитория>
+cd <Имя вашего репозитория>
 ----
 
 == Создайте новую ветку `config` и переключитесь в неё
